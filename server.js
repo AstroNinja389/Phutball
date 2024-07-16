@@ -1,18 +1,62 @@
 const express = require('express');
-const http = require('http');
-const socketIo = require('socket.io');
 const path = require('path');
+const http = require('http');
+const WebSocket = require('ws');
 
 const app = express();
 const server = http.createServer(app);
-const io = socketIo(server);
+const wss = new WebSocket.Server({ server });
 
-
+// Serve static files from the "public" directory
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Handle all other routes by serving the index.html file
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
+
+// WebSocket connection
+wss.on('connection', (ws) => {
+  console.log('New client connected');
+
+  ws.on('message', (message) => {
+    console.log('Received:', message);
+    ws.send(`Server says: ${message}`);
+  });
+
+  ws.on('close', () => {
+    console.log('Client disconnected');
+  });
+});
+
+// Define the port
+const port = process.env.PORT || 3000;
+
+// Start the server
+server.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const socketIo = require('socket.io');
+const io = socketIo(server);
+
 
 io.on('connection', (socket) => {
   console.log('user connected');
