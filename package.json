@@ -1,7 +1,7 @@
 {
   "name": "phutball",
   "version": "1.0.0",
-  "description": "An application to play phutball online",
+  "description": "A simple Node.js and Socket.io application",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
@@ -12,5 +12,6 @@
   "engines": {
     "node": "14.x"
   },
-  "author": "Nina Zubrilina"
+  "author": "Nina Zubrilina",
+  "license": "ISC"
 }
